@@ -128,6 +128,16 @@ button:focus-visible,input:focus-visible,select:focus-visible,label:focus-within
         <div class="ctl" style="margin-top:10px"><div class="ctl-top"><label for="g-cdepth">Conduit depth, below today's grade</label><output id="o-cdepth"></output></div><input type="range" id="g-cdepth" min="6" max="30" step="1"></div>
       </div>
       <div class="sec">
+        <h2 class="sec-h">Pad surface</h2>
+        <div class="ctl"><select id="pad-surf" aria-label="Pad surface">
+          <option value="brick">Clay brick, 45° herringbone</option>
+          <option value="cbrick">Brick-look concrete pavers, 90° herringbone</option>
+          <option value="slab">24 in concrete pavers, to match the walkway</option>
+          <option value="conc">Brushed concrete, saw-cut grid</option>
+        </select></div>
+        <div class="hint" id="pad-cost"></div>
+      </div>
+      <div class="sec">
         <h2 class="sec-h">Orientation</h2>
         <div class="ctl"><div class="ctl-top"><label for="s-north">House faces (from the yard)</label><output id="o-north"></output></div><input type="range" id="s-north" min="0" max="359" step="1"></div>
         <div class="hint">Sun is set to a late October afternoon. North isn't confirmed yet. Stand on the walkway facing the house, read your phone compass, and set this to match.</div>
