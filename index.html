@@ -127,12 +127,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,label:focus-within
         <div class="hint">Measured from the patio slab. Set a step to 0 to merge two levels into one. The walls restack as you drag.</div>
         <div class="stats" id="stats"></div>
       </div>
-      <div class="sec">
-        <h2 class="sec-h">Existing grade</h2>
-        <div class="ctl"><div class="ctl-top"><label for="g-walk">Walkway fall to back fence</label><output id="o-walk"></output></div><input type="range" id="g-walk" min="6" max="36" step="1"></div>
-        <div class="hint">Estimates of the yard as it slopes today. String-line readings will replace them.</div>
-        <div class="ctl" style="margin-top:10px"><div class="ctl-top"><label for="g-cdepth">Conduit depth, below today's grade</label><output id="o-cdepth"></output></div><input type="range" id="g-cdepth" min="6" max="30" step="1"></div>
-      </div>
+
       <div class="sec" id="sec-pad">
         <h2 class="sec-h">Pad surface</h2>
         <div class="seg" role="group" aria-label="Pad surface">
@@ -141,9 +136,11 @@ button:focus-visible,input:focus-visible,select:focus-visible,label:focus-within
         </div>
       </div>
       <div class="sec">
-        <h2 class="sec-h">Orientation</h2>
-        <div class="ctl"><div class="ctl-top"><label for="s-north">House faces (from the yard)</label><output id="o-north"></output></div><input type="range" id="s-north" min="0" max="359" step="1"></div>
-        <div class="hint">Sun is set to a late October afternoon. North isn't confirmed yet. Stand on the walkway facing the house, read your phone compass, and set this to match.</div>
+        <h2 class="sec-h">Pool pump</h2>
+        <div class="seg" role="group" aria-label="Pool pump location">
+          <button type="button" id="pp-post" aria-pressed="true">At the power post</button>
+          <button type="button" id="pp-plant" aria-pressed="false">Behind the planters</button>
+        </div>
       </div>
       <div class="sec">
         <h2 class="sec-h">Show</h2>
