@@ -109,9 +109,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,label:focus-within
     </div>
     <div id="scroll">
       <div class="sec">
-        <div class="seg" role="group" aria-label="Design version">
+        <div class="seg" role="group" aria-label="Design version" style="grid-template-columns:repeat(3,1fr)">
           <button type="button" id="v-plan" aria-pressed="true">Our plan</button>
           <button type="button" id="v-quote" aria-pressed="false">Contractor quote</button>
+          <button type="button" id="v-fb" aria-pressed="false">My feedback</button>
         </div>
         <div class="hint" id="v-hint" style="margin-top:6px"></div>
       </div>
@@ -128,6 +129,13 @@ button:focus-visible,input:focus-visible,select:focus-visible,label:focus-within
         <div class="stats" id="stats"></div>
       </div>
 
+      <div class="sec" id="sec-fbpad" hidden>
+        <h2 class="sec-h">Herringbone angle</h2>
+        <div class="seg" role="group" aria-label="Herringbone angle">
+          <button type="button" id="fb-45" aria-pressed="false">45°, as quoted</button>
+          <button type="button" id="fb-90" aria-pressed="true">90°, fewer cuts</button>
+        </div>
+      </div>
       <div class="sec" id="sec-pad">
         <h2 class="sec-h">Pad surface</h2>
         <div class="seg" role="group" aria-label="Pad surface">
