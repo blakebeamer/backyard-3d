@@ -28,6 +28,7 @@
   --fg:#e7e5de; --muted:#a19d93; --faint:#6f6c65;
   --accent:#78c79a; --accent-soft:#233a2d; --chip:#262a25; --warn:#e3a06a; --warn-soft:#3a2a1d;
   --tip-bg:rgba(245,244,240,.95); --tip-fg:#1d1c19; color-scheme:dark }
+[hidden]{display:none!important}
 html,body{height:100%;overflow:hidden}
 body{background:var(--bg);color:var(--fg);font-family:var(--font-ui)}
 #app{display:flex;position:fixed;inset:0;padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
@@ -109,7 +110,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,label:focus-within
     </div>
     <div id="scroll">
       <div class="sec">
-        <div class="seg" role="group" aria-label="Design version">
+        <div class="seg" role="group" aria-label="Design version" hidden>
           <button type="button" id="v-plan" hidden>Our plan</button>
           <button type="button" id="v-quote" aria-pressed="false">Contractor quote</button>
           <button type="button" id="v-fb" aria-pressed="false">My feedback</button>
