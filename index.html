@@ -109,8 +109,8 @@ button:focus-visible,input:focus-visible,select:focus-visible,label:focus-within
     </div>
     <div id="scroll">
       <div class="sec">
-        <div class="seg" role="group" aria-label="Design version" style="grid-template-columns:repeat(3,1fr)">
-          <button type="button" id="v-plan" aria-pressed="true">Our plan</button>
+        <div class="seg" role="group" aria-label="Design version">
+          <button type="button" id="v-plan" hidden>Our plan</button>
           <button type="button" id="v-quote" aria-pressed="false">Contractor quote</button>
           <button type="button" id="v-fb" aria-pressed="false">My feedback</button>
         </div>
@@ -129,7 +129,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,label:focus-within
         <div class="stats" id="stats"></div>
       </div>
 
-      <div class="sec" id="sec-fbcol" hidden>
+      <div class="sec" id="sec-fbcol" hidden data-off="1">
         <h2 class="sec-h">Paver color</h2>
         <div class="seg" role="group" aria-label="Paver color">
           <button type="button" id="fc-red" aria-pressed="true">Brick red blend</button>
@@ -138,28 +138,28 @@ button:focus-visible,input:focus-visible,select:focus-visible,label:focus-within
           <button type="button" id="fc-charcoal" aria-pressed="false">Charcoal blend</button>
         </div>
       </div>
-      <div class="sec" id="sec-fbpad" hidden>
+      <div class="sec" id="sec-fbpad" hidden data-off="1">
         <h2 class="sec-h">Herringbone angle</h2>
         <div class="seg" role="group" aria-label="Herringbone angle">
           <button type="button" id="fb-45" aria-pressed="false">45°, as quoted</button>
           <button type="button" id="fb-90" aria-pressed="true">90°, fewer cuts</button>
         </div>
       </div>
-      <div class="sec" id="sec-fbedge" hidden>
+      <div class="sec" id="sec-fbedge" hidden data-off="1">
         <h2 class="sec-h">Pad tier held by</h2>
         <div class="seg" role="group" aria-label="Pad tier held by">
           <button type="button" id="fe-steel" aria-pressed="false">Steel, as quoted</button>
           <button type="button" id="fe-block" aria-pressed="true">Wall block tier</button>
         </div>
       </div>
-      <div class="sec" id="sec-pad">
+      <div class="sec" id="sec-pad" hidden data-off="1">
         <h2 class="sec-h">Pad surface</h2>
         <div class="seg" role="group" aria-label="Pad surface">
           <button type="button" id="ps-brick" aria-pressed="true">Clay brick, 45°</button>
           <button type="button" id="ps-cbrick" aria-pressed="false">Brick-look paver, 90°</button>
         </div>
       </div>
-      <div class="sec">
+      <div class="sec" hidden>
         <h2 class="sec-h">Pool pump</h2>
         <div class="seg" role="group" aria-label="Pool pump location">
           <button type="button" id="pp-post" aria-pressed="true">Shed, hoses in basalt</button>
