@@ -11,22 +11,22 @@
 <style>
 /* Layout: same plan-review shell as the 2D render. Control panel on the left, live 3D view fills the rest. Phone: view on top, panel below. */
 :root{
-  --bg:#eceae4; --panel:#ffffff; --panel-2:#f6f5f2; --line:#e6e3dc;
-  --fg:#2b2925; --muted:#8f8a80; --faint:#b2ada3;
-  --accent:#2f6f4f; --accent-soft:#e7f1eb; --chip:#faf9f7; --warn:#a6561c; --warn-soft:#f8ece1; --elec:#d93a3f;
+  --bg:#efefef; --panel:#ffffff; --panel-2:#f5f5f5; --line:#e4e4e4;
+  --fg:#111111; --muted:#6e6e6e; --faint:#a8a8a8;
+  --accent:#111111; --accent-soft:#f0f0f0; --chip:#ffffff; --warn:#8a4b14; --warn-soft:#f7efe7; --elec:#111111;
   --tip-bg:rgba(30,28,25,.92); --tip-fg:#ffffff;
   --font-ui:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   --font-num:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#151714; --panel:#1d201c; --panel-2:#242823; --line:#30352f;
-  --fg:#e7e5de; --muted:#a19d93; --faint:#6f6c65;
-  --accent:#78c79a; --accent-soft:#233a2d; --chip:#262a25; --warn:#e3a06a; --warn-soft:#3a2a1d;
+  --bg:#121212; --panel:#1a1a1a; --panel-2:#222222; --line:#2e2e2e;
+  --fg:#f2f2f2; --muted:#9a9a9a; --faint:#5e5e5e;
+  --accent:#f2f2f2; --accent-soft:#2a2a2a; --chip:#1a1a1a; --warn:#e3a06a; --warn-soft:#3a2a1d;
   --tip-bg:rgba(245,244,240,.95); --tip-fg:#1d1c19; color-scheme:dark }}
 :root[data-theme="dark"]{
-  --bg:#151714; --panel:#1d201c; --panel-2:#242823; --line:#30352f;
-  --fg:#e7e5de; --muted:#a19d93; --faint:#6f6c65;
-  --accent:#78c79a; --accent-soft:#233a2d; --chip:#262a25; --warn:#e3a06a; --warn-soft:#3a2a1d;
+  --bg:#121212; --panel:#1a1a1a; --panel-2:#222222; --line:#2e2e2e;
+  --fg:#f2f2f2; --muted:#9a9a9a; --faint:#5e5e5e;
+  --accent:#f2f2f2; --accent-soft:#2a2a2a; --chip:#1a1a1a; --warn:#e3a06a; --warn-soft:#3a2a1d;
   --tip-bg:rgba(245,244,240,.95); --tip-fg:#1d1c19; color-scheme:dark }
 [hidden]{display:none!important}
 html,body{height:100%;overflow:hidden}
@@ -44,12 +44,15 @@ body{background:var(--bg);color:var(--fg);font-family:var(--font-ui)}
 .link-btn{border:none;background:none;color:var(--accent);font:600 11.5px var(--font-ui);padding:2px 6px;border-radius:5px;cursor:pointer}.link-btn:hover{background:var(--accent-soft)}
 .sec-h{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin:0 0 8px}
 .seg{display:grid;grid-template-columns:1fr 1fr;background:var(--panel-2);border:1px solid var(--line);border-radius:9px;padding:3px;gap:3px}
-.seg button{border:none;background:none;color:var(--muted);font:600 12px var(--font-ui);padding:7px 4px;border-radius:6px;cursor:pointer}
-.seg button[aria-pressed="true"]{background:var(--panel);color:var(--fg);box-shadow:0 1px 3px rgba(0,0,0,.14)}
+.seg button{border:none;background:none;color:var(--fg);font:500 12.5px var(--font-ui);padding:8px 10px;border-radius:6px;cursor:pointer;text-align:left;line-height:1.3}
+.seg button:hover{background:var(--panel)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--panel);box-shadow:none}
+.seg button small{display:block;font-weight:400;font-size:11px;opacity:.65;margin-top:1px}
 .views{display:grid;grid-template-columns:1fr 1fr;gap:6px}
 .views button{border:1px solid var(--line);background:var(--chip);color:var(--fg);border-radius:8px;padding:7px 8px;font:600 12px var(--font-ui);cursor:pointer;text-align:left;line-height:1.25}
 .views button small{display:block;font-weight:400;color:var(--muted);font-size:11px}
-.views button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.views button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent);color:var(--panel)}
+.views button[aria-pressed="true"] small{color:inherit;opacity:.7}
 .views button:hover{background:var(--panel-2)}
 .ctl{display:grid;gap:3px;margin-bottom:10px}
 .ctl-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:12.5px}
@@ -66,6 +69,48 @@ body{background:var(--bg);color:var(--fg);font-family:var(--font-ui)}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
 .chips label{display:flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--chip);border-radius:16px;padding:5px 10px 5px 8px;font-size:12px;cursor:pointer;user-select:none}
 .chips input{accent-color:var(--accent);margin:0}
+.fold{margin-top:16px;border-top:1px solid var(--line);padding-top:12px}
+.fold>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.fold>summary::-webkit-details-marker{display:none}
+.fold>summary::after{content:'+';font:400 16px var(--font-ui);color:var(--muted)}
+.fold[open]>summary::after{content:'\2013'}
+.fold>.body{margin-top:10px}
+.spec{font-size:12px;line-height:1.45}
+.spec h3{font-size:12px;font-weight:700;margin:12px 0 4px}
+.spec ul{margin:0;padding-left:16px}
+.spec li{margin:2px 0}
+.spec code{font:11px var(--font-num);color:var(--muted)}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:12px 16px 4px;border:1px solid var(--fg);border-radius:8px;overflow:hidden}
+.tabs button{border:none;background:var(--panel);color:var(--fg);font:600 12.5px var(--font-ui);padding:8px 0;cursor:pointer}
+.tabs button+button{border-left:1px solid var(--fg)}
+.tabs button[aria-pressed="true"]{background:var(--fg);color:var(--panel)}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.steps button{display:grid;grid-template-columns:22px 1fr;gap:8px;align-items:start;width:100%;text-align:left;border:none;background:none;padding:7px 6px;border-radius:7px;cursor:pointer;color:var(--fg);font:500 12.5px/1.3 var(--font-ui)}
+.steps button:hover{background:var(--panel-2)}
+.steps .n{width:20px;height:20px;border-radius:50%;border:1px solid var(--fg);display:grid;place-items:center;font:600 11px var(--font-num)}
+.steps button[aria-pressed="true"] .n{background:var(--fg);color:var(--panel)}
+.steps button[aria-pressed="true"]{font-weight:650}
+.card{border:1px solid var(--line);border-radius:10px;padding:12px;background:var(--panel-2);font-size:12.5px;line-height:1.5}
+.card h3{margin:0 0 2px;font-size:14px}
+.card .where{color:var(--muted);font-size:11.5px;margin-bottom:8px}
+.card ul{margin:0;padding-left:16px}.card li{margin:3px 0}
+.card code{font:10.5px var(--font-num);color:var(--muted);white-space:nowrap}
+.card .warn{margin-top:8px;padding:7px 9px;border-left:2px solid var(--fg);background:var(--panel);font-size:12px}
+.nav{display:flex;justify-content:space-between;gap:8px;margin-top:10px}
+.nav button{flex:1;border:1px solid var(--fg);background:var(--panel);color:var(--fg);border-radius:7px;padding:7px 0;font:600 12px var(--font-ui);cursor:pointer}
+.nav button:last-child{background:var(--fg);color:var(--panel)}
+.nav button:disabled{opacity:.3;cursor:default}
+.pin{pointer-events:auto;cursor:pointer;width:22px;height:22px;border-radius:50%;background:var(--panel);color:var(--fg);border:1.5px solid var(--fg);display:grid;place-items:center;font:700 11px var(--font-num);box-shadow:0 1px 4px rgba(0,0,0,.25);transform:translateY(-6px)}
+.pin.on{background:var(--fg);color:var(--panel);width:26px;height:26px;font-size:12px}
+.pin span{display:none}
+.pin.on span{display:block;position:absolute;left:32px;top:50%;transform:translateY(-50%);white-space:nowrap;background:var(--fg);color:var(--panel);font:600 11.5px var(--font-ui);padding:3px 8px;border-radius:5px}
+.seg.colors{grid-template-columns:1fr 1fr;max-height:none}
+.seg.colors button{display:grid;grid-template-columns:22px 1fr;gap:8px;align-items:center;padding:7px 8px}
+.seg.colors .chip{width:22px;height:22px;border-radius:5px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
+.seg.colors button[aria-pressed="true"] .chip{box-shadow:0 0 0 2px var(--panel)}
+.pick{display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:center;border:1px solid var(--line);border-radius:9px;padding:10px;font-size:12.5px;line-height:1.35}
+.pick .chip{width:30px;height:30px;border-radius:6px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
+.pick small{display:block;color:var(--muted);font-size:11px;margin-top:2px}
 .pn-foot{font-size:11.5px;line-height:1.45;color:var(--muted);padding:10px 16px 14px;border-top:1px solid var(--line)}
 #wrap{position:relative;flex:1;min-width:0;background:var(--bg);touch-action:none}
 #wrap canvas{display:block;width:100%;height:100%;outline:none}
@@ -74,7 +119,7 @@ body{background:var(--bg);color:var(--fg);font-family:var(--font-ui)}
 .compass text{font:700 9px var(--font-ui);fill:var(--fg)}
 .xray{position:absolute;left:14px;top:14px;display:flex;align-items:center;gap:7px;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:7px 11px 7px 9px;font:600 12.5px var(--font-ui);color:var(--fg);box-shadow:0 1px 5px rgba(0,0,0,.15);cursor:pointer;z-index:3}
 .xray svg{width:16px;height:16px;flex:none}
-.xray[aria-pressed="true"]{background:var(--elec);border-color:var(--elec);color:#fff}
+.xray[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--panel)}
 .zbtns{position:absolute;right:max(14px,env(safe-area-inset-right,0px));top:70px;display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line);border-radius:9px;box-shadow:0 1px 5px rgba(0,0,0,.15);overflow:hidden;z-index:3}
 .zbtns button{width:34px;height:32px;border:none;background:none;color:var(--fg);font:600 17px var(--font-ui);cursor:pointer}
 .zbtns button+button{border-top:1px solid var(--line)}
@@ -84,7 +129,7 @@ body{background:var(--bg);color:var(--fg);font-family:var(--font-ui)}
 .dmode button svg{width:17px;height:17px}
 .dmode button+button{border-top:1px solid var(--line)}
 .dmode button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent)}
-.lbl{pointer-events:none;background:var(--panel);color:var(--fg);border:1.5px solid var(--elec);border-radius:6px;padding:3px 7px;font:600 11.5px var(--font-ui);white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,.2);transform:translateY(-14px)}
+.lbl{pointer-events:none;background:var(--panel);color:var(--fg);border:1px solid var(--fg);border-radius:6px;padding:3px 7px;font:600 11.5px var(--font-ui);white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,.2);transform:translateY(-14px)}
 .lbl small{display:block;font:500 10.5px var(--font-num);color:var(--muted)}
 #labels{position:absolute;inset:0;pointer-events:none;overflow:hidden}
 .badge{position:absolute;left:14px;bottom:max(14px,env(safe-area-inset-bottom,0px));background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font:11.5px var(--font-num);color:var(--muted);box-shadow:0 1px 5px rgba(0,0,0,.12);max-width:calc(100% - 28px)}
@@ -108,35 +153,32 @@ button:focus-visible,input:focus-visible,select:focus-visible,label:focus-within
       <div class="pn-sub" id="pn-sub">Building the scene…</div>
       <div class="progress" id="prog"><i></i></div>
     </div>
+    <div class="tabs" role="tablist" aria-label="Mode"><button type="button" id="tab-d" aria-pressed="true">Design</button><button type="button" id="tab-e" aria-pressed="false">Electrical</button></div>
     <div id="scroll">
+      <div id="pane-e" hidden>
+        <div class="sec"><div class="hint">Two 20 A GFCI circuits and an empty conduit for a future shed subpanel, in one ~45 ft trench. The ground is cut open along the route.</div></div>
+        <div class="sec"><div class="card" id="step-card"></div>
+          <div class="nav"><button type="button" id="st-prev">Back</button><button type="button" id="st-next">Next</button></div></div>
+        <div class="sec"><h2 class="sec-h">All stops</h2><ol class="steps" id="steps"></ol></div>
+        <div class="sec"><div class="hint">Code basis: Austin enforces the 2026 NEC (since Sept 1, 2026) with local amendments. Section numbers follow the 2023 layout; confirm any that moved. The electrician and the inspector have the final call.</div></div>
+      </div>
+      <div id="pane-d">
       <div class="sec">
         <div class="seg" role="group" aria-label="Design version" hidden>
           <button type="button" id="v-plan" hidden>Our plan</button>
           <button type="button" id="v-quote" aria-pressed="false">Contractor quote</button>
           <button type="button" id="v-fb" aria-pressed="false">My feedback</button>
         </div>
-        <div class="hint" id="v-hint" style="margin-top:6px"></div>
+        <div class="hint" id="v-hint" style="margin-top:6px" hidden></div>
       </div>
       <div class="sec">
         <h2 class="sec-h">Views</h2>
         <div class="views" id="views"></div>
       </div>
-      <div class="sec">
-        <div class="sec-row"><h2 class="sec-h">Proposed levels</h2><button type="button" class="link-btn" id="g-reset">Reset levels</button></div>
-        <div class="ctl"><div class="ctl-top"><label for="g-pad">Pad level</label><output id="o-pad"></output></div><input type="range" id="g-pad" min="-12" max="0" step="1"></div>
-        <div class="ctl"><div class="ctl-top"><label for="g-step1">Step: pad to pool</label><output id="o-step1"></output></div><input type="range" id="g-step1" min="0" max="12" step="1"></div>
-        <div class="ctl"><div class="ctl-top"><label for="g-step2">Step: pool to turf</label><output id="o-step2"></output></div><input type="range" id="g-step2" min="0" max="18" step="1"></div>
-        <div class="hint">Measured from the patio slab. Set a step to 0 to merge two levels into one. The walls restack as you drag.</div>
-        <div class="stats" id="stats"></div>
-      </div>
 
       <div class="sec" id="sec-fbcol">
-        <h2 class="sec-h">Paver color</h2>
-        <div class="seg" role="group" aria-label="Paver color" style="grid-template-columns:repeat(3,1fr)">
-          <button type="button" id="fc-red" aria-pressed="true">Brick red blend</button>
-          <button type="button" id="fc-amaretto" aria-pressed="false">Amaretto + charcoal border</button>
-          <button type="button" id="fc-walnut" aria-pressed="false">Walnut brown</button>
-        </div>
+        <h2 class="sec-h">Paver pad</h2>
+        <div class="pick"><i class="chip" style="background:linear-gradient(135deg,#564641 0% 25%,#714e45 25% 50%,#6c4b42 50% 75%,#5d4943 75% 100%)"></i><div><b>Belgard Holland · Dark red blend</b><small>Row 4, #6 on Abey's swatch sheet · 4x8, 90° herringbone, matching soldier border</small></div></div>
       </div>
       <div class="sec" id="sec-fbpad" hidden data-off="1">
         <h2 class="sec-h">Herringbone angle</h2>
@@ -167,16 +209,30 @@ button:focus-visible,input:focus-visible,select:focus-visible,label:focus-within
         </div>
       </div>
       <div class="sec">
+        <h2 class="sec-h">Gate deck · Trex</h2>
+        <div class="pick"><i class="chip" style="background:linear-gradient(90deg,#544c46,#6a625b 50%,#544c46)"></i><div><b>Trex Transcend Lineage · Jasper</b><small>Boards run parallel to the patio edge · joists 16" o.c. max</small></div></div>
+      </div>
+      <div class="sec">
         <h2 class="sec-h">Show</h2>
         <div class="chips" id="layers"></div>
       </div>
+      <details class="fold" id="fold-levels"><summary>Grade levels</summary><div class="body">
+        <div class="sec-row" style="justify-content:flex-end"><button type="button" class="link-btn" id="g-reset">Reset levels</button></div>
+        <div class="ctl"><div class="ctl-top"><label for="g-pad">Pad level</label><output id="o-pad"></output></div><input type="range" id="g-pad" min="-12" max="0" step="1"></div>
+        <div class="ctl"><div class="ctl-top"><label for="g-step1">Step: pad to pool</label><output id="o-step1"></output></div><input type="range" id="g-step1" min="0" max="12" step="1"></div>
+        <div class="ctl"><div class="ctl-top"><label for="g-step2">Step: pool to turf</label><output id="o-step2"></output></div><input type="range" id="g-step2" min="0" max="18" step="1"></div>
+        <div class="hint">Measured from the patio slab. Set a step to 0 to merge two levels into one. The walls restack as you drag.</div>
+        <div class="stats" id="stats"></div>
+      </div></details>
+      </div>
+
     </div>
-    <div class="pn-foot">To scale from the plan: <b>1 ft = 14.35 units</b>. Drag to move. Switch the drag to Rotate (or hold R, right-drag, or Shift-drag) to turn and tilt. Scroll to zoom; double-click to fly in.</div>
+    <div class="pn-foot">To scale. Drag to move, use Rotate (or right-drag) to turn, scroll to zoom.</div>
   </aside>
   <main id="wrap" aria-label="3D backyard view">
     <div class="compass" aria-hidden="true"><svg viewBox="-20 -20 40 40" id="compass"><circle r="17" fill="none" stroke="var(--line)"/><g id="needle"><path d="M0,-15 L4,0 L0,-3 L-4,0Z" fill="var(--accent)"/><text y="-6" text-anchor="middle" dy="-11">N</text></g></svg></div>
     <div id="labels"></div>
-    <button type="button" class="xray" id="xray" aria-pressed="false"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 6h14M1 6l2-3h10l2 3"/><path d="M2 9.5h12M2 13h12" stroke-dasharray="2 2"/></svg>Underground</button>
+    <button type="button" class="xray" id="xray" aria-pressed="false" hidden><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 6h14M1 6l2-3h10l2 3"/><path d="M2 9.5h12M2 13h12" stroke-dasharray="2 2"/></svg>Trench cutaway</button>
     <div class="zbtns"><button type="button" id="z-in" aria-label="Zoom in">+</button><button type="button" id="z-out" aria-label="Zoom out">&minus;</button></div>
     <div class="dmode" role="group" aria-label="What dragging does"><button type="button" id="d-move" aria-pressed="true" title="Drag moves around"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v16M2 10h16M10 2l-2.5 2.5M10 2l2.5 2.5M10 18l-2.5-2.5M10 18l2.5-2.5M2 10l2.5-2.5M2 10l2.5 2.5M18 10l-2.5-2.5M18 10l-2.5 2.5"/></svg>Move</button><button type="button" id="d-rot" aria-pressed="false" title="Drag rotates and tilts"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M16.5 9A6.5 6.5 0 1 0 15 13.5"/><path d="M16.8 4.8v4.4h-4.4"/></svg>Rotate</button></div>
     <div class="badge" id="badge"></div>
