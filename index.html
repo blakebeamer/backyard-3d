@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Backyard 3D</title>
-<meta name="description" content="3D model of the backyard plan: today vs. proposed, stepped terraces, buried conduit.">
+<meta name="description" content="3D model of the backyard renovation: paver pad, stepped terraces, Trex gate deck, buried conduit.">
 <link rel="preload" href="ground.webp" as="image" type="image/webp">
 <link rel="modulepreload" href="app.js">
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif}[hidden]{display:none!important}</style>
@@ -117,9 +117,6 @@ body{background:var(--bg);color:var(--fg);font-family:var(--font-ui)}
 .compass{position:absolute;right:max(14px,env(safe-area-inset-right,0px));top:14px;width:46px;height:46px;border-radius:50%;background:var(--panel);border:1px solid var(--line);box-shadow:0 1px 5px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center}
 .compass svg{width:34px;height:34px}
 .compass text{font:700 9px var(--font-ui);fill:var(--fg)}
-.xray{position:absolute;left:14px;top:14px;display:flex;align-items:center;gap:7px;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:7px 11px 7px 9px;font:600 12.5px var(--font-ui);color:var(--fg);box-shadow:0 1px 5px rgba(0,0,0,.15);cursor:pointer;z-index:3}
-.xray svg{width:16px;height:16px;flex:none}
-.xray[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--panel)}
 .zbtns{position:absolute;right:max(14px,env(safe-area-inset-right,0px));top:70px;display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line);border-radius:9px;box-shadow:0 1px 5px rgba(0,0,0,.15);overflow:hidden;z-index:3}
 .zbtns button{width:34px;height:32px;border:none;background:none;color:var(--fg);font:600 17px var(--font-ui);cursor:pointer}
 .zbtns button+button{border-top:1px solid var(--line)}
@@ -129,8 +126,6 @@ body{background:var(--bg);color:var(--fg);font-family:var(--font-ui)}
 .dmode button svg{width:17px;height:17px}
 .dmode button+button{border-top:1px solid var(--line)}
 .dmode button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent)}
-.lbl{pointer-events:none;background:var(--panel);color:var(--fg);border:1px solid var(--fg);border-radius:6px;padding:3px 7px;font:600 11.5px var(--font-ui);white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,.2);transform:translateY(-14px)}
-.lbl small{display:block;font:500 10.5px var(--font-num);color:var(--muted)}
 #labels{position:absolute;inset:0;pointer-events:none;overflow:hidden}
 .badge{position:absolute;left:14px;bottom:max(14px,env(safe-area-inset-bottom,0px));background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font:11.5px var(--font-num);color:var(--muted);box-shadow:0 1px 5px rgba(0,0,0,.12);max-width:calc(100% - 28px)}
 .badge b{color:var(--fg);font-weight:600}
@@ -164,14 +159,6 @@ button:focus-visible,input:focus-visible,select:focus-visible,label:focus-within
       </div>
       <div id="pane-d">
       <div class="sec">
-        <div class="seg" role="group" aria-label="Design version" hidden>
-          <button type="button" id="v-plan" hidden>Our plan</button>
-          <button type="button" id="v-quote" aria-pressed="false">Contractor quote</button>
-          <button type="button" id="v-fb" aria-pressed="false">My feedback</button>
-        </div>
-        <div class="hint" id="v-hint" style="margin-top:6px" hidden></div>
-      </div>
-      <div class="sec">
         <h2 class="sec-h">Views</h2>
         <div class="views" id="views"></div>
       </div>
@@ -179,34 +166,6 @@ button:focus-visible,input:focus-visible,select:focus-visible,label:focus-within
       <div class="sec" id="sec-fbcol">
         <h2 class="sec-h">Paver pad</h2>
         <div class="pick"><i class="chip" style="background:linear-gradient(135deg,#564641 0% 25%,#714e45 25% 50%,#6c4b42 50% 75%,#5d4943 75% 100%)"></i><div><b>Belgard Holland · Dark red blend</b><small>Row 4, #6 on Abey's swatch sheet · 4x8, 90° herringbone, matching soldier border</small></div></div>
-      </div>
-      <div class="sec" id="sec-fbpad" hidden data-off="1">
-        <h2 class="sec-h">Herringbone angle</h2>
-        <div class="seg" role="group" aria-label="Herringbone angle">
-          <button type="button" id="fb-45" aria-pressed="false">45°, as quoted</button>
-          <button type="button" id="fb-90" aria-pressed="true">90°, fewer cuts</button>
-        </div>
-      </div>
-      <div class="sec" id="sec-fbedge" hidden data-off="1">
-        <h2 class="sec-h">Pad tier held by</h2>
-        <div class="seg" role="group" aria-label="Pad tier held by">
-          <button type="button" id="fe-steel" aria-pressed="false">Steel, as quoted</button>
-          <button type="button" id="fe-block" aria-pressed="true">Wall block tier</button>
-        </div>
-      </div>
-      <div class="sec" id="sec-pad" hidden data-off="1">
-        <h2 class="sec-h">Pad surface</h2>
-        <div class="seg" role="group" aria-label="Pad surface">
-          <button type="button" id="ps-brick" aria-pressed="true">Clay brick, 45°</button>
-          <button type="button" id="ps-cbrick" aria-pressed="false">Brick-look paver, 90°</button>
-        </div>
-      </div>
-      <div class="sec" hidden>
-        <h2 class="sec-h">Pool pump</h2>
-        <div class="seg" role="group" aria-label="Pool pump location">
-          <button type="button" id="pp-post" aria-pressed="true">Shed, hoses in basalt</button>
-          <button type="button" id="pp-plant" aria-pressed="false">Planters, own outlet</button>
-        </div>
       </div>
       <div class="sec">
         <h2 class="sec-h">Gate deck · Trex</h2>
@@ -232,7 +191,6 @@ button:focus-visible,input:focus-visible,select:focus-visible,label:focus-within
   <main id="wrap" aria-label="3D backyard view">
     <div class="compass" aria-hidden="true"><svg viewBox="-20 -20 40 40" id="compass"><circle r="17" fill="none" stroke="var(--line)"/><g id="needle"><path d="M0,-15 L4,0 L0,-3 L-4,0Z" fill="var(--accent)"/><text y="-6" text-anchor="middle" dy="-11">N</text></g></svg></div>
     <div id="labels"></div>
-    <button type="button" class="xray" id="xray" aria-pressed="false" hidden><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 6h14M1 6l2-3h10l2 3"/><path d="M2 9.5h12M2 13h12" stroke-dasharray="2 2"/></svg>Trench cutaway</button>
     <div class="zbtns"><button type="button" id="z-in" aria-label="Zoom in">+</button><button type="button" id="z-out" aria-label="Zoom out">&minus;</button></div>
     <div class="dmode" role="group" aria-label="What dragging does"><button type="button" id="d-move" aria-pressed="true" title="Drag moves around"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v16M2 10h16M10 2l-2.5 2.5M10 2l2.5 2.5M10 18l-2.5-2.5M10 18l2.5-2.5M2 10l2.5-2.5M2 10l2.5 2.5M18 10l-2.5-2.5M18 10l-2.5 2.5"/></svg>Move</button><button type="button" id="d-rot" aria-pressed="false" title="Drag rotates and tilts"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M16.5 9A6.5 6.5 0 1 0 15 13.5"/><path d="M16.8 4.8v4.4h-4.4"/></svg>Rotate</button></div>
     <div class="badge" id="badge"></div>
