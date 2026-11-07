@@ -90,7 +90,9 @@ body{background:var(--bg);color:var(--fg);font-family:var(--font-ui)}
 .steps .n{width:20px;height:20px;border-radius:50%;border:1px solid var(--fg);display:grid;place-items:center;font:600 11px var(--font-num)}
 .steps button[aria-pressed="true"] .n{background:var(--fg);color:var(--panel)}
 .steps button[aria-pressed="true"]{font-weight:650}
-
+/*FUTURE{*/.fut{margin:10px 16px 0;border:1px solid var(--fg);border-radius:10px;padding:12px 14px;background:var(--panel);font-size:12.5px;line-height:1.5;position:relative}
+.fut h3{margin:0 0 6px;font:700 13.5px var(--font-ui)}.louv{display:flex;align-items:center;gap:8px;margin-top:6px;font-weight:600}.louv input{flex:1}.louv span{font-weight:400;font-size:11px;color:var(--muted,#777)}.fut ul{margin:0;padding-left:16px}.fut li{margin:3px 0}
+.fut-x{position:absolute;top:6px;right:8px;border:none;background:none;font-size:18px;line-height:1;cursor:pointer;color:var(--fg)}/*}FUTURE*/
 .card{border:1px solid var(--line);border-radius:10px;padding:12px;background:var(--panel-2);font-size:12.5px;line-height:1.5}
 .card h3{margin:0 0 2px;font-size:14px}
 .card .where{color:var(--muted);font-size:11.5px;margin-bottom:8px}
@@ -130,72 +132,193 @@ body{background:var(--bg);color:var(--fg);font-family:var(--font-ui)}
 #labels{position:absolute;inset:0;pointer-events:none;overflow:hidden}
 .badge{position:absolute;left:14px;bottom:max(14px,env(safe-area-inset-bottom,0px));background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font:11.5px var(--font-num);color:var(--muted);box-shadow:0 1px 5px rgba(0,0,0,.12);max-width:calc(100% - 28px)}
 .badge b{color:var(--fg);font-weight:600}
+.seasons{display:flex;gap:2px;margin-bottom:5px}.seasons button{border:1px solid var(--line);background:var(--panel);color:var(--fg);font:600 11px var(--font-ui);padding:3px 7px;border-radius:5px;cursor:pointer}.seasons button[aria-pressed="true"]{background:var(--fg);color:var(--panel);border-color:var(--fg)}
 #err{position:absolute;inset:auto 14px 60px 14px;background:var(--warn-soft);color:var(--warn);border:1px solid var(--warn);border-radius:8px;padding:10px 12px;font-size:12.5px}
 button:focus-visible,input:focus-visible,select:focus-visible,label:focus-within{outline:2px solid var(--accent);outline-offset:1px}
-@media (max-width:720px){
-  #app{flex-direction:column-reverse}
-  #panel{width:auto;height:46%;border-right:none;border-top:1px solid var(--line)}
-  #scroll,.pn-head{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-  .pn-foot{display:none}
 }
 @media (prefers-reduced-motion:reduce){.progress i{transition:none}}
+/* ---- full-bleed 3D with floating controls: mode + settings top left, light top right, notes bottom left, tour bar bottom centre ---- */
+#app{display:flex;position:fixed;inset:0}
+#wrap{position:relative;flex:1;min-width:0}
+/* Design: docked panel on the left (views, notes, materials, layers, levels). Electrical: full-screen with the tour bar. */
+#dpanel{width:320px;flex:none;display:flex;flex-direction:column;min-height:0;background:var(--panel);border-right:1px solid var(--line);z-index:6}
+body[data-mode="elec"] #dpanel{display:none}
+body[data-mode="design"] .topbar,body[data-mode="design"] .tour,body[data-mode="design"] .note{display:none!important}
+.dp-head{padding:16px 16px 12px;border-bottom:1px solid var(--line);display:grid;gap:12px}
+.dp-brand b{display:block;font-size:16px;letter-spacing:-.01em}.dp-brand span{display:block;font-size:12px;color:var(--muted);margin-top:2px}.dp-brand .progress{margin-top:8px}
+.dp-tabs{display:flex;margin:0;border:1px solid var(--line);border-radius:10px;padding:3px;gap:3px;background:var(--panel-2)}
+.dp-tabs button{flex:1;border:none;border-radius:7px;padding:8px 0;font:600 12.5px var(--font-ui);background:none;color:var(--fg);cursor:pointer}
+.dp-tabs button+button{border-left:none}
+.dp-tabs button[aria-pressed="true"]{background:var(--fg);color:var(--panel)}
+.dp-scroll{flex:1;min-height:0;overflow-y:auto;padding:4px 16px 16px}
+.dp-sec{margin-top:16px}
+.dp-sec>h2,.dp-fold>summary{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin:0 0 8px}
+.dp-views{display:grid;gap:2px}
+.dp-views button{display:grid;grid-template-columns:24px 1fr;gap:10px;align-items:center;width:100%;text-align:left;border:none;background:none;padding:7px 8px;border-radius:9px;cursor:pointer;color:var(--fg);font:600 13px/1.25 var(--font-ui)}
+.dp-views button small{display:block;font-weight:400;font-size:11.5px;color:var(--muted)}
+.dp-views .n{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--faint);display:grid;place-items:center;font:700 10.5px var(--font-num);color:var(--muted)}
+.dp-views button:hover{background:var(--panel-2)}
+.dp-views button[aria-pressed="true"]{background:var(--accent-soft)}
+.dp-views button[aria-pressed="true"] .n{background:var(--fg);border-color:var(--fg);color:var(--panel)}
+.dp-about{margin-top:10px;padding:11px 12px;border-radius:10px;background:var(--panel-2);font-size:12.5px;line-height:1.5}
+.dp-about p{margin:0}
+#dmats{display:grid;gap:8px}
+.dp-fold{border-top:1px solid var(--line);padding-top:14px}
+.dp-fold>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;margin:0}
+.dp-fold>summary::-webkit-details-marker{display:none}
+.dp-fold>summary::after{content:'+';font:400 16px var(--font-ui)}.dp-fold[open]>summary::after{content:'\2013'}
+.dp-fold[open]>summary{margin-bottom:10px}
+.dp-row{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:10px}
+.dp-foot{font-size:11.5px;line-height:1.45;color:var(--muted);padding:10px 16px 14px;border-top:1px solid var(--line)}
+.ov{background:var(--panel);border:1px solid var(--line);box-shadow:0 2px 14px rgba(0,0,0,.14)}
+.topbar{position:absolute;left:14px;top:14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;max-width:calc(100% - 100px);z-index:5}
+.brand{background:var(--panel);border:1px solid var(--line);box-shadow:0 2px 14px rgba(0,0,0,.14);border-radius:10px;padding:6px 11px;line-height:1.2;min-width:0}
+.brand b{display:block;font-size:13.5px;letter-spacing:-.01em}
+.brand span{display:block;font-size:11px;color:var(--muted)}
+.brand .progress{margin-top:5px;width:150px}
+.topbar .tabs{margin:0;border:1px solid var(--line);box-shadow:0 2px 14px rgba(0,0,0,.14);border-radius:10px;background:var(--panel);padding:3px;gap:3px;display:flex}
+.topbar .tabs button{border:none;border-radius:7px;padding:7px 14px;font:600 12.5px var(--font-ui);background:none;color:var(--fg);cursor:pointer}
+.topbar .tabs button+button{border-left:none}
+.topbar .tabs button[aria-pressed="true"]{background:var(--fg);color:var(--panel)}
+.tools{display:flex;gap:6px}
+.tool{display:flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--panel);color:var(--fg);box-shadow:0 2px 14px rgba(0,0,0,.14);border-radius:10px;padding:8px 11px;font:600 12px var(--font-ui);cursor:pointer}
+.tool svg{width:16px;height:16px}
+.tool:hover{background:var(--panel-2)}
+.tool[aria-expanded="true"]{background:var(--fg);color:var(--panel);border-color:var(--fg)}
+.pop{position:absolute;left:0;top:calc(100% + 8px);width:300px;max-height:calc(100vh - 190px);overflow:auto;background:var(--panel);border:1px solid var(--line);box-shadow:0 8px 28px rgba(0,0,0,.2);border-radius:12px;padding:12px 14px}
+.pop-h{display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:10px}
+.badge{left:auto;right:76px;top:14px;bottom:auto;border-radius:10px;box-shadow:0 2px 14px rgba(0,0,0,.14);z-index:4}
+/* notes card */
+.note{position:absolute;left:14px;bottom:84px;width:380px;max-height:calc(100% - 84px - 84px);display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.18);z-index:4;animation:noteIn .18s ease-out}
+@keyframes noteIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.note-body{overflow:auto;padding:14px 16px 14px;font-size:12.8px;line-height:1.5}
+.note-x{position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:7px;border:none;background:none;color:var(--muted);font-size:20px;line-height:1;cursor:pointer}
+.note-x:hover{background:var(--panel-2);color:var(--fg)}
+.note .kick{font:700 10.5px var(--font-ui);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:4px;padding-right:30px}
+.note h3{margin:0;font-size:16px;letter-spacing:-.01em;padding-right:30px}
+.note .where{color:var(--muted);font-size:12px;margin:2px 0 10px}
+.note p{margin:0 0 8px}.note .lead{padding-bottom:10px;border-bottom:1px solid var(--line);margin-bottom:10px}
+.note ul{margin:0;padding-left:17px}.note li{margin:4px 0}
+.note code{font:10.5px var(--font-num);color:var(--muted);white-space:nowrap}
+.note .warn{margin-top:10px;padding:8px 10px;border-left:2px solid var(--fg);background:var(--panel-2);font-size:12px;border-radius:0 6px 6px 0}
+.note .pick{margin-top:8px}
+.note .asdrawn{margin-top:10px;padding:9px 11px;border-radius:9px;background:var(--panel-2);font-size:12.3px}.note .asdrawn b{display:block;font:700 10.5px var(--font-ui);text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:3px}
+.note .fine{margin-top:12px;border-top:1px solid var(--line);padding-top:8px;font-size:11.5px;color:var(--muted)}
+.note .fine summary{cursor:pointer;font-weight:600}
+/* tour bar */
+.tour{position:absolute;left:50%;transform:translateX(-50%);bottom:max(14px,env(safe-area-inset-bottom,0px));width:min(900px,calc(100% - 28px));display:grid;grid-template-columns:auto 1fr auto auto auto;align-items:center;gap:6px;padding:6px;background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.18);z-index:5}
+.tnav{display:flex;align-items:center;justify-content:center;gap:4px;width:92px;height:40px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--fg);font:600 13px var(--font-ui);cursor:pointer}
+.tnav svg{width:17px;height:17px}
+.tnav.next{background:var(--fg);color:var(--panel);border-color:var(--fg)}
+.tnav:hover:not(:disabled){filter:brightness(.96)}
+.tnav:disabled{opacity:.3;cursor:default}
+.tstrip{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;min-width:0;scroll-padding:0 40px;mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 14px),transparent 100%)}
+.tstrip::-webkit-scrollbar{display:none}
+.tchip{flex:none;display:flex;align-items:center;gap:6px;height:36px;padding:0 11px 0 6px;border-radius:9px;border:none;background:none;color:var(--fg);font:500 12.5px var(--font-ui);white-space:nowrap;cursor:pointer}
+.tchip:first-child{margin-left:10px}.tchip:last-child{margin-right:10px}
+.tchip .n{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--faint);display:grid;place-items:center;font:700 10.5px var(--font-num);color:var(--muted)}
+.tchip:hover{background:var(--panel-2)}
+.tchip[aria-current="step"]{background:var(--accent-soft);font-weight:650}
+.tchip[aria-current="step"] .n{background:var(--fg);border-color:var(--fg);color:var(--panel)}
+.tcount{font:600 11.5px var(--font-num);color:var(--muted);padding:0 4px;white-space:nowrap}
+.tnote{display:flex;align-items:center;gap:5px;height:40px;padding:0 11px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--muted);font:600 12.5px var(--font-ui);cursor:pointer}
+.tnote svg{width:17px;height:17px}
+.tnote[aria-pressed="true"]{color:var(--fg);background:var(--accent-soft);border-color:var(--faint)}
+.fut{position:absolute;right:14px;top:246px;width:330px;max-height:calc(100% - 246px - 90px);overflow:auto;margin:0;box-shadow:0 8px 30px rgba(0,0,0,.18);z-index:4}
+.zbtns,.dmode,.compass{z-index:5}
+#labels{z-index:1}
+.fut-more>summary{cursor:pointer;font-weight:600;margin-top:10px;color:var(--muted)}.fut-more[open]>summary{color:var(--fg)}
+@media (max-width:980px){body[data-mode="elec"] .badge{right:auto;left:14px;top:72px}}
+@media (max-width:720px){
+  .topbar{left:10px;top:10px;gap:6px;max-width:calc(100% - 76px)}
+  #app{flex-direction:column-reverse}
+  #dpanel{width:auto;height:46%;border-right:none;border-top:1px solid var(--line)}
+  .dp-foot{display:none}
+  .brand{display:none}
+  .badge{left:10px!important;right:auto!important;top:60px!important}
+  body[data-mode="design"] .badge{top:10px!important}
+  .tour{width:calc(100% - 16px);bottom:max(8px,env(safe-area-inset-bottom,0px));grid-template-columns:auto 1fr auto auto;gap:4px;padding:5px}
+  .tcount{display:none}
+  .tnav{width:44px}.tnav span,.tnote span{display:none}.tnote{padding:0 10px}
+  .note{left:8px;right:8px;width:auto;bottom:66px;max-height:42%}
+  .fut{left:8px;right:8px;width:auto;top:120px;max-height:40%}
+}
 </style>
 </head>
 <body>
 <div id="app">
-  <aside id="panel" aria-label="3D view controls">
-    <div class="pn-head">
-      <div class="pn-title">Backyard 3D</div>
-      <div class="pn-sub" id="pn-sub">Building the scene…</div>
-      <div class="progress" id="prog"><i></i></div>
+  <aside id="dpanel" aria-label="Design">
+    <div class="dp-head">
+      <div class="dp-brand"><b>Backyard 3D</b><span id="pn-sub">Building the scene…</span><div class="progress" id="prog"><i></i></div></div>
+      <div class="tabs dp-tabs" role="group" aria-label="Mode"><button type="button" id="tab-d2" aria-pressed="true">Design</button><button type="button" id="tab-e2" aria-pressed="false">Electrical</button></div>
     </div>
-    <div class="tabs" role="tablist" aria-label="Mode"><button type="button" id="tab-d" aria-pressed="true">Design</button><button type="button" id="tab-e" aria-pressed="false">Electrical</button></div>
-    <div id="scroll">
-
-      <div id="pane-e" hidden>
-        <div class="sec"><div class="hint">Two 20 A GFCI circuits plus two empty conduits for the future shed (power and data), in one ~41 ft trench. The ground is cut open along the route.</div></div>
-        <div class="sec"><div class="card" id="step-card"></div>
-          <div class="nav"><button type="button" id="st-prev">Back</button><button type="button" id="st-next">Next</button></div></div>
-        <div class="sec"><h2 class="sec-h">All stops</h2><ol class="steps" id="steps"></ol></div>
-        <div class="sec"><div class="hint">Code basis: Austin enforces the 2026 NEC (since Sept 1, 2026) with local amendments. Section numbers follow the 2023 layout; confirm any that moved. The electrician and the inspector have the final call.</div></div>
-      </div>
-      <div id="pane-d">
-      <div class="sec">
-        <h2 class="sec-h">Views</h2>
-        <div class="views" id="views"></div>
-      </div>
-
-      <div class="sec" id="sec-fbcol">
-        <h2 class="sec-h">Paver pad</h2>
-        <div class="pick"><i class="chip" style="background:linear-gradient(135deg,#564641 0% 25%,#714e45 25% 50%,#6c4b42 50% 75%,#5d4943 75% 100%)"></i><div><b>Belgard Holland · Dark red blend</b><small>Row 4, #6 on Abey's swatch sheet · 4x8, 90° herringbone, matching soldier border</small></div></div>
-      </div>
-      <div class="sec">
-        <h2 class="sec-h">Gate deck · Trex</h2>
-        <div class="pick"><i class="chip" style="background:linear-gradient(90deg,#544c46,#6a625b 50%,#544c46)"></i><div><b>Trex Transcend Lineage · Jasper</b><small>Boards run parallel to the patio edge · joists 16" o.c. max</small></div></div>
-      </div>
-      <div class="sec">
-        <h2 class="sec-h">Show</h2>
-        <div class="chips" id="layers"></div>
-      </div>
-      <details class="fold" id="fold-levels"><summary>Grade levels</summary><div class="body">
-        <div class="sec-row" style="justify-content:flex-end"><button type="button" class="link-btn" id="g-reset">Reset levels</button></div>
+    <div class="dp-scroll">
+      <section class="dp-sec"><h2>Views</h2><div class="dp-views" id="dviews"></div><div class="dp-about" id="dabout"></div></section>
+      <section class="dp-sec"><h2>Materials</h2><div id="dmats"></div></section>
+      <section class="dp-sec"><h2>Show</h2><div class="chips" id="layers"></div></section>
+      <details class="dp-sec dp-fold"><summary>Grade levels</summary>
+        <div class="dp-row"><span class="hint">Measured from the patio slab. Set a step to 0 to merge two levels.</span><button type="button" class="link-btn" id="g-reset">Reset</button></div>
         <div class="ctl"><div class="ctl-top"><label for="g-pad">Pad level</label><output id="o-pad"></output></div><input type="range" id="g-pad" min="-12" max="0" step="1"></div>
         <div class="ctl"><div class="ctl-top"><label for="g-step1">Step: pad to pool</label><output id="o-step1"></output></div><input type="range" id="g-step1" min="0" max="12" step="1"></div>
         <div class="ctl"><div class="ctl-top"><label for="g-step2">Step: pool to turf</label><output id="o-step2"></output></div><input type="range" id="g-step2" min="0" max="18" step="1"></div>
         <div class="hint">Measured from the patio slab. Set a step to 0 to merge two levels into one. The walls restack as you drag.</div>
         <div class="stats" id="stats"></div>
-      </div></details>
-      </div>
-
+      </details>
     </div>
-    <div class="pn-foot">To scale. Drag to move, use Rotate (or right-drag) to turn, scroll to zoom.</div>
+    <div class="dp-foot">To scale. Drag to move, right-drag (or hold R) to turn, scroll to zoom.</div>
   </aside>
   <main id="wrap" aria-label="3D backyard view">
     <div class="compass" aria-hidden="true"><svg viewBox="-20 -20 40 40" id="compass"><circle r="17" fill="none" stroke="var(--line)"/><g id="needle"><path d="M0,-15 L4,0 L0,-3 L-4,0Z" fill="var(--accent)"/><text y="-6" text-anchor="middle" dy="-11">N</text></g></svg></div>
     <div id="labels"></div>
     <div class="zbtns"><button type="button" id="z-in" aria-label="Zoom in">+</button><button type="button" id="z-out" aria-label="Zoom out">&minus;</button></div>
     <div class="dmode" role="group" aria-label="What dragging does"><button type="button" id="d-move" aria-pressed="true" title="Drag moves around"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v16M2 10h16M10 2l-2.5 2.5M10 2l2.5 2.5M10 18l-2.5-2.5M10 18l2.5-2.5M2 10l2.5-2.5M2 10l2.5 2.5M18 10l-2.5-2.5M18 10l-2.5 2.5"/></svg>Move</button><button type="button" id="d-rot" aria-pressed="false" title="Drag rotates and tilts"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M16.5 9A6.5 6.5 0 1 0 15 13.5"/><path d="M16.8 4.8v4.4h-4.4"/></svg>Rotate</button></div>
-    <div class="badge" id="badge"></div>
+
+    <!-- top left: what this is, which mode, and the two settings popovers -->
+    <header class="topbar">
+      <div class="brand"><b>Backyard 3D</b><span>Electrical walkthrough</span></div>
+      <div class="tabs" role="group" aria-label="Mode"><button type="button" id="tab-d" aria-pressed="false">Design</button><button type="button" id="tab-e" aria-pressed="true">Electrical</button></div>
+    </header>
+
+    <div class="badge" id="badge"><div class="seasons" id="seasons" role="group" aria-label="Light"><button type="button" data-k="live">Live</button><button type="button" data-k="spring">Spring</button><button type="button" data-k="summer">Summer</button><button type="button" data-k="fall">Fall</button><button type="button" data-k="winter">Winter</button></div><div id="sunline"></div></div>
+<!--FUTURE{-->
+      <div class="fut ov" id="fut" hidden><button type="button" class="fut-x" id="fut-x" aria-label="Close">×</button>
+        <h3>Someday plan</h3><label class="louv">Pergola shade <input type="range" id="shade" min="0" max="100" value="60"> <span>open ↔ shaded</span></label>
+        <details class="fut-more"><summary>Office, porch, pergola, budget</summary>
+        <h3 style="margin-top:10px">The office</h3>
+        <ul>
+          <li><b>Structure:</b> 12×8 office plus a 5×8 pool-supply room under one low shed roof, about 9 ft tall at the front and 8 ft at the back, set 5 ft off the back fence (typical rear setback; confirm). Lap siding, white trim and the foundation band to match the house, cedar on the storage end, glass facing the pool. Shell budget ≤ $15k.</li>
+          <li><b>Site:</b> replaces the turf, set close to the paver walkway. Crushed limestone to match the pool tier, the steel edging kept as the bed edge, a low boxwood hedge on the walkway side, a Trex Jasper entry deck to match the gate deck.</li>
+          <li><b>Fence side:</b> everything mechanical lives on the east end: subpanel, mini-split condenser and its disconnect, line-set cover, ground rods. The spare's stub is already there.</li>
+          <li><b>Power:</b> 60 A feeder pulled through the 1-1/2" spare (two #6 hots, #6 neutral, #10 ground, copper) into a 60 A subpanel with a main breaker on the east wall. That breaker is the building disconnect, with 36" clear in front (about 4 ft to the steel wall). At the house, ~26 ft of new surface conduit runs from the main panel down the east wall to the spare's capped stub. Two ground rods 6 ft apart; neutral and ground kept separate.</li>
+          <li><b>Circuits:</b> 9–12k BTU mini-split on a 240 V breaker with a disconnect in sight, office receptacles (20 A), lights (15 A), an exterior GFCI.</li>
+          <li><b>Data:</b> Cat6 or fiber through the 1" data conduit. At the house it turns into the wall at the corner (sealed LB) and runs inside to the router; at the office it comes up through the floor to a small switch and Wi-Fi access point.</li>
+          <li><b>First:</b> permit and setbacks for an accessory building with the City, and a load calc on the 200 A service.</li>
+        </ul>
+        <h3 style="margin-top:12px">The rest of the property</h3>
+        <ul>
+          <li><b>Screened porch</b> on the old patio, built like an addition: shingle roof tied in under the eave, cedar ceiling, fan on its own switch, 6" gutters with downspouts piped to the river rock by the fence and the walkway's rock bed.</li>
+          <li><b>Inside:</b> 24×48 porcelain on the slab (sloped 1/8" per ft away from the house), a 12 ft multi-slide door where the slider and window are now (engineered header, temporary shoring, a structural permit), a wide two-tread step up to it, a TV wall east of the door with a recessed media box and in-wall power, a sectional facing it, a rug, and a bistro table for morning coffee.</li>
+          <li><b>Doors:</b> screen doors to the pool, to the west walkway, and to the grill deck; the side gate becomes a horizontal-slat cedar gate to match. Ring camera moves to the beam's east corner (fed from a new box off the porch circuit). Porch all-in roughly $45–80k.</li>
+          <li><b>Shade pergola</b> over the pool and pad, about 17×16 ft: white aluminum frame with a cedar inner trim and a retractable wave-shade canopy on stainless cables, so you set how much sun gets through. Posts sit clear of the electrical trench. Roughly $12–30k installed (motorized at the top end).</li>
+          <li><b>West side path:</b> the backyard steppers continue along the house, past the bins, through the side gate and down to the driveway, set in black basalt. Roughly $3–7k.</li>
+          <li><b>Front yard:</b> the white rock comes out and becomes sod; a low boxwood and rosemary bed runs along the house, stops at the front stoop and wraps to the panel side, with nothing planted in the 3 ft in front of the meter and panel. Roughly $5–10k.</li>
+          <li><b>All in</b>, with the office at $25–40k: about $90–165k. $100k covers it only at the low end, so phase it: porch and pergola first if those are the everyday wins, office when the budget catches up. Ballparks, not quotes.</li>
+        </ul></details></div>
+<!--}FUTURE-->
+    <!-- notes: the explanation for the current view or stop, always in the same place, can be hidden -->
+    <section class="note" id="note" aria-live="polite">
+      <button type="button" class="note-x" id="note-x" aria-label="Hide notes" title="Hide notes (N)">&times;</button>
+      <div class="note-body" id="note-body"></div>
+    </section>
+
+    <!-- tour bar: Back and Next never move; every stop is one click away -->
+    <nav class="tour" aria-label="Walkthrough">
+      <button type="button" class="tnav" id="st-prev" aria-label="Previous"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 4-6 6 6 6"/></svg><span>Back</span></button>
+      <div class="tstrip" id="tstrip" role="list"></div>
+      <span class="tcount" id="tcount"></span>
+      <button type="button" class="tnote" id="t-notes" aria-pressed="true" title="Show or hide notes (N)"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="3.5" y="3.5" width="13" height="13" rx="3"/><path d="M7 8h6M7 11h6M7 14h3"/></svg><span>Notes</span></button>
+      <button type="button" class="tnav next" id="st-next" aria-label="Next"><span>Next</span><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 4 6 6-6 6"/></svg></button>
+    </nav>
     <div id="err" hidden></div>
   </main>
 </div>
