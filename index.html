@@ -90,6 +90,7 @@ body{background:var(--bg);color:var(--fg);font-family:var(--font-ui)}
 .steps .n{width:20px;height:20px;border-radius:50%;border:1px solid var(--fg);display:grid;place-items:center;font:600 11px var(--font-num)}
 .steps button[aria-pressed="true"] .n{background:var(--fg);color:var(--panel)}
 .steps button[aria-pressed="true"]{font-weight:650}
+
 .card{border:1px solid var(--line);border-radius:10px;padding:12px;background:var(--panel-2);font-size:12.5px;line-height:1.5}
 .card h3{margin:0 0 2px;font-size:14px}
 .card .where{color:var(--muted);font-size:11.5px;margin-bottom:8px}
@@ -113,7 +114,7 @@ body{background:var(--bg);color:var(--fg);font-family:var(--font-ui)}
 .pick small{display:block;color:var(--muted);font-size:11px;margin-top:2px}
 .pn-foot{font-size:11.5px;line-height:1.45;color:var(--muted);padding:10px 16px 14px;border-top:1px solid var(--line)}
 #wrap{position:relative;flex:1;min-width:0;background:var(--bg);touch-action:none}
-#wrap canvas{display:block;width:100%;height:100%;outline:none}
+#wrap canvas{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;display:block;width:100%;height:100%;outline:none}
 .compass{position:absolute;right:max(14px,env(safe-area-inset-right,0px));top:14px;width:46px;height:46px;border-radius:50%;background:var(--panel);border:1px solid var(--line);box-shadow:0 1px 5px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center}
 .compass svg{width:34px;height:34px}
 .compass text{font:700 9px var(--font-ui);fill:var(--fg)}
@@ -150,8 +151,9 @@ button:focus-visible,input:focus-visible,select:focus-visible,label:focus-within
     </div>
     <div class="tabs" role="tablist" aria-label="Mode"><button type="button" id="tab-d" aria-pressed="true">Design</button><button type="button" id="tab-e" aria-pressed="false">Electrical</button></div>
     <div id="scroll">
+
       <div id="pane-e" hidden>
-        <div class="sec"><div class="hint">Two 20 A GFCI circuits and an empty conduit for a future shed subpanel, in one ~45 ft trench. The ground is cut open along the route.</div></div>
+        <div class="sec"><div class="hint">Two 20 A GFCI circuits plus two empty conduits for the future shed (power and data), in one ~41 ft trench. The ground is cut open along the route.</div></div>
         <div class="sec"><div class="card" id="step-card"></div>
           <div class="nav"><button type="button" id="st-prev">Back</button><button type="button" id="st-next">Next</button></div></div>
         <div class="sec"><h2 class="sec-h">All stops</h2><ol class="steps" id="steps"></ol></div>
